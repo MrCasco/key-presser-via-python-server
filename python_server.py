@@ -1,24 +1,13 @@
-# from flask import Flask, request
-# app = Flask(__name__)
-# @app.route('/', methods=['POST'])
-#
-# def result():
-#     print(request.form['a']) # should display '1'
-#     return 'Received !' # response to your request.
-#
-# while True:
-#     result()
 
-
-# Python 3 server example
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pynput.keyboard import Key, Controller
-import time
-from socket import gethostname
 
-keyboard = Controller()
-hostName = gethostname()
+from presser.key_presser import Presser
+
+keyboard = Presser()
+hostName = "0.0.0.0"
 serverPort = 8080
+
 
 class MyServer(BaseHTTPRequestHandler):
 
@@ -42,16 +31,10 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>This is an example web server.</p>", "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
-        letter = self.path[-1]
-        if letter != 'o':
-            keyboard.press(letter)
-            keyboard.release(letter)
+        if self.path != '/favicon.ico':
+            letter = self.path[-1]
+            keyboard.press_letter(letter)
 
-    def typeLetter(self, path):
-        letter = self.path[-1]
-        print(letter)
-        keyboard.press(letter)
-        keyboard.release(letter)
 
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
