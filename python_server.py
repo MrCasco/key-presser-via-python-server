@@ -28,7 +28,7 @@ class MyServer(BaseHTTPRequestHandler):
             letter = self.path[-1]
             keyboard.press_letter(letter)
 
-
+            
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
