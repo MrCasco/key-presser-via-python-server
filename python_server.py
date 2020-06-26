@@ -1,13 +1,12 @@
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from pynput.keyboard import Key, Controller
+import pyautogui
+import keyboard
+from pynput.keyboard import Controller, Key
 
-from presser.key_presser import Presser
-
-keyboard = Presser()
 hostName = "0.0.0.0"
 serverPort = 8080
-
+controller = Controller()
 
 class MyServer(BaseHTTPRequestHandler):
 
@@ -25,16 +24,20 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<button value='esc' type='submit' name='button'>Esc</button>", "utf-8"))
         self.wfile.write(bytes("<button value='tab' type='submit' name='button'>Tab</button>", "utf-8"))
         self.wfile.write(bytes("<button value='|' type='submit' name='button'>|</button>", "utf-8"))
-        self.wfile.write(bytes("<button value='f1' type='submit' name='button'>f1</button>", "utf-8"))
-        self.wfile.write(bytes("<button value='f2' type='submit' name='button'>f2</button>", "utf-8"))
+        self.wfile.write(bytes("<button value='f1' type='submit' name='button'>F1</button>", "utf-8"))
+        self.wfile.write(bytes("<button value='f2' type='submit' name='button'>F2</button>", "utf-8"))
         self.wfile.write(bytes("</form>", "utf-8"))
         self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>This is an example web server.</p>", "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
-        if self.path != '/favicon.ico':
-            letter = self.path[-1]
-            keyboard.press_letter(letter)
 
+        if self.path != '/favicon.ico':
+            letter = self.path.split('=')
+            print(letter[-1])
+            if (letter[-1] != 'f1') & (letter[-1] != 'f2'):
+                keyboard.press_and_release(letter[-1])
+            else:
+                pyautogui.press(letter[-1])
 
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
