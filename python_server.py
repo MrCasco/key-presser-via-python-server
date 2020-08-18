@@ -15,8 +15,9 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_header("Content-type", "text/html")
         self.end_headers()
         self.wfile.write(bytes("<html><head><title>https://pythonbasics.org</title></head>", "utf-8"))
+        self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>Request: %s</p>" % self.path, "utf-8"))
-        self.wfile.write(bytes("<form action='request.py'>", 'utf-8'))
+        self.wfile.write(bytes("<form>", 'utf-8'))
         self.wfile.write(bytes("<button value='z' type='submit' name='button'>z</button>", "utf-8"))
         self.wfile.write(bytes("<button value='q' type='submit' name='button'>q</button>", "utf-8"))
         self.wfile.write(bytes("<button value='a' type='submit' name='button'>a</button>", "utf-8"))
@@ -27,7 +28,6 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<button value='f1' type='submit' name='button'>F1</button>", "utf-8"))
         self.wfile.write(bytes("<button value='f2' type='submit' name='button'>F2</button>", "utf-8"))
         self.wfile.write(bytes("</form>", "utf-8"))
-        self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>This is an example web server.</p>", "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
 
